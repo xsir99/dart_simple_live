@@ -101,8 +101,10 @@ class SignalRService {
     String app = "Simple Live TV";
     String platform = 'tv';
     String version = Utils.packageInfo.version;
+    Log.d("CreateRoom args: app=$app, platform=$platform, version=$version");
     var resp = await hubConnection
         ?.invoke("CreateRoom", args: [app, platform, version]);
+    Log.d("CreateRoom resp: $resp");
     return Resp<String>.fromObject(resp);
   }
 
@@ -160,8 +162,8 @@ class Resp<T> {
   }
 
   factory Resp.fromObject(Object? obj) {
-    if (obj is Map<String, dynamic>) {
-      return Resp.fromJson(obj);
+    if (obj is Map) {
+      return Resp.fromJson(Map<String, dynamic>.from(obj));
     }
     return Resp(false, "unknown", null);
   }

@@ -31,6 +31,10 @@ class HomeController extends BaseController {
     Get.toNamed(RoutePath.kFollow);
   }
 
+  void toDouyinFollowLive() {
+    Get.toNamed(RoutePath.kDouyinFollowLive);
+  }
+
   void toSettings() {
     Get.toNamed(RoutePath.kSettings);
   }

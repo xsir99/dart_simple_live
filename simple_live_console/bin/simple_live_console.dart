@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:simple_live_core/simple_live_core.dart';
+import 'package:simple_live_core/src/common/http_client.dart';
 
 void main(List<String> arguments) async {
   CoreLog.enableLog = false;
@@ -25,6 +27,10 @@ void main(List<String> arguments) async {
     await printInfo(url);
   } else if (action == "d") {
     printDanmaku(url);
+  } else if (action == "s") {
+    await printSearch(url);
+  } else if (action == "r") {
+    await printRoomDetailByWebRid(url);
   } else if (action == "h") {
     printHelp();
   } else {
@@ -36,6 +42,58 @@ void main(List<String> arguments) async {
 void printHelp() {
   print("-i [URL] ：获取直播间信息及播放直链");
   print("-d [URL] ：持续输出直播间弹幕");
+  print("-s [keyword] ：抖音搜索直播间");
+  print("-r [webRid] ：抖音通过webRid获取房间详情");
+}
+
+Future printRoomDetailByWebRid(String webRid) async {
+  var site = DouyinSite();
+  print("正在通过 webRid 获取抖音直播间详情: $webRid ...");
+  try {
+    var detail = await site.getRoomDetailByWebRid(webRid);
+    print("\n========== 房间详情 ==========");
+    print("webRid: $webRid");
+    print("房间号(roomId): ${detail.roomId}");
+    print("标题: ${detail.title}");
+    print("主播: ${detail.userName}");
+    print("头像: ${detail.userAvatar}");
+    print("封面: ${detail.cover}");
+    print("人气: ${detail.online}");
+    print("状态: ${detail.status ? "直播中" : "未开播"}");
+    print("链接: ${detail.url}");
+    print("简介: ${detail.introduction}");
+    print("公告: ${detail.notice}");
+    print("弹幕数据: ${detail.danmakuData}");
+    print("流数据: ${detail.data}");
+    print("==============================");
+  } catch (e, stackTrace) {
+    print("获取房间详情失败: $e");
+    print(stackTrace);
+  }
+}
+
+Future printSearch(String keyword) async {
+  var site = DouyinSite();
+  print("正在搜索抖音直播间: $keyword ...");
+  try {
+    var result = await site.searchRooms(keyword, page: 1);
+    print("\n========== 搜索结果 ==========");
+    print("共 ${result.items.length} 个结果，是否有更多: ${result.hasMore}");
+    print("");
+    for (var i = 0; i < result.items.length; i++) {
+      var item = result.items[i];
+      print("【${i + 1}】${item.title}");
+      print("    主播: ${item.userName}");
+      print("    房间号: ${item.roomId}");
+      print("    人气: ${item.online}");
+      print("    封面: ${item.cover}");
+      print("");
+    }
+    print("==============================");
+  } catch (e, stackTrace) {
+    print("搜索失败: $e");
+    print(stackTrace);
+  }
 }
 
 Future printInfo(String url) async {

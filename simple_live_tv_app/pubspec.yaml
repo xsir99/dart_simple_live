@@ -1,7 +1,7 @@
 name: simple_live_tv_app
 description: A new Flutter project.
 publish_to: "none"
-version: 1.6.5+10605
+version: 1.6.6+12607
 
 environment:
   sdk: ">=3.1.2 <4.0.0"
@@ -46,6 +46,7 @@ dependencies:
   udp: ^5.0.3 #UDP
   device_info_plus: ^12.1.0 #设备信息
   wakelock_plus: ^1.4.0 #屏幕常亮，media_kit中自带，但似乎不生效
+  flutter_inappwebview: ^6.1.5 #WebView
 
   # 视频播放
   media_kit: ^1.2.1
@@ -60,6 +61,8 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  vm_service: ^15.0.2
+  watcher: ^1.1.0
 
 flutter:
   uses-material-design: true

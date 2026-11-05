@@ -8,6 +8,7 @@ import 'package:simple_live_tv_app/app/controller/app_settings_controller.dart';
 import 'package:simple_live_tv_app/app/utils.dart';
 import 'package:simple_live_tv_app/modules/settings/settings_controller.dart';
 import 'package:simple_live_tv_app/services/bilibili_account_service.dart';
+import 'package:simple_live_tv_app/services/douyin_account_service.dart';
 import 'package:simple_live_tv_app/services/follow_user_service.dart';
 import 'package:simple_live_tv_app/widgets/app_scaffold.dart';
 import 'package:simple_live_tv_app/widgets/button/highlight_button.dart';
@@ -461,19 +462,47 @@ class SettingsPage extends GetView<SettingsController> {
           },
         ),
         AppStyle.vGap24,
-        HighlightListTile(
-          focusNode: AppFocusNode(),
-          title: "抖音账号",
-          subtitle: "无需登录",
-          leading: Image.asset(
-            "assets/images/douyin.png",
-            width: 64.w,
-            height: 64.w,
+        Obx(
+          () => HighlightListTile(
+            focusNode: controller.douyinFoucsNode,
+            autofocus: controller.douyinFoucsNode.isFoucsed.value,
+            title: "抖音账号",
+            subtitle: DouyinAccountService.instance.logined.value
+                ? "已登录：${DouyinAccountService.instance.name.value}"
+                : "未登录，点击扫码登录",
+            leading: Image.asset(
+              "assets/images/douyin.png",
+              width: 64.w,
+              height: 64.w,
+            ),
+            trailing: DouyinAccountService.instance.logined.value
+                ? HighlightButton(
+                    focusNode: AppFocusNode(),
+                    iconData: Icons.live_tv,
+                    text: "关注直播",
+                    onTap: controller.toDouyinFollowLive,
+                  )
+                : null,
+            onTap: controller.douyinTap,
           ),
-          onTap: () {
-            SmartDialog.showToast("无需登录抖音，您可以直接观看直播");
-          },
-        )
+        ),
+        AppStyle.vGap24,
+        Obx(
+          () => Visibility(
+            visible: DouyinAccountService.instance.logined.value,
+            child: HighlightListTile(
+              focusNode: AppFocusNode(),
+              title: "抖音关注直播",
+              subtitle: "查看已关注且正在直播的主播",
+              leading: Image.asset(
+                "assets/images/douyin.png",
+                width: 64.w,
+                height: 64.w,
+              ),
+              onTap: controller.toDouyinFollowLive,
+            ),
+          ),
+        ),
       ],
     );
   }

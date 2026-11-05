@@ -53,11 +53,10 @@ class SyncController extends BaseController {
         _startTimer();
       } else {
         SmartDialog.showToast(resp.message);
-        Get.back();
       }
     } catch (e) {
-      SmartDialog.showToast("创建房间失败");
-      Get.back();
+      Log.logPrint("创建房间失败: $e");
+      SmartDialog.showToast("创建房间失败: $e");
     }
   }
 

@@ -64,11 +64,10 @@ class RemoteSyncRoomController extends BaseController {
         _startTimer();
       } else {
         SmartDialog.showToast(resp.message);
-        Get.back();
       }
     } catch (e) {
-      SmartDialog.showToast("创建房间失败");
-      Get.back();
+      SmartDialog.showToast("创建房间失败:$e");
+      Log.logPrint(e);
     }
   }
 

@@ -3,6 +3,11 @@
 import 'package:get/get.dart';
 import 'package:simple_live_tv_app/modules/account/bilibili/qr_login_controller.dart';
 import 'package:simple_live_tv_app/modules/account/bilibili/qr_login_page.dart';
+import 'package:simple_live_tv_app/modules/account/douyin/cookie_login_page.dart';
+import 'package:simple_live_tv_app/modules/account/douyin/follow_live_controller.dart';
+import 'package:simple_live_tv_app/modules/account/douyin/follow_live_page.dart';
+import 'package:simple_live_tv_app/modules/account/douyin/web_login_controller.dart';
+import 'package:simple_live_tv_app/modules/account/douyin/web_login_page.dart';
 import 'package:simple_live_tv_app/modules/agreement/agreement_page.dart';
 import 'package:simple_live_tv_app/modules/category/category_controller.dart';
 import 'package:simple_live_tv_app/modules/category/category_page.dart';
@@ -75,6 +80,27 @@ class AppPages {
       page: () => const BiliBiliQRLoginPage(),
       bindings: [
         BindingsBuilder.put(() => BiliBiliQRLoginController()),
+      ],
+    ),
+    //抖音Web登录
+    GetPage(
+      name: RoutePath.kDouyinWebLogin,
+      page: () => const DouyinWebLoginPage(),
+      bindings: [
+        BindingsBuilder.put(() => DouyinWebLoginController()),
+      ],
+    ),
+    //抖音Cookie登录
+    GetPage(
+      name: RoutePath.kDouyinCookieLogin,
+      page: () => const DouyinCookieLoginPage(),
+    ),
+    //抖音关注直播
+    GetPage(
+      name: RoutePath.kDouyinFollowLive,
+      page: () => const DouyinFollowLivePage(),
+      bindings: [
+        BindingsBuilder.put(() => DouyinFollowLiveController()),
       ],
     ),
     // 设置

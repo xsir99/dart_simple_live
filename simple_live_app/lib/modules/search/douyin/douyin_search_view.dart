@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -24,39 +22,15 @@ class DouyinSearchView extends StatelessWidget {
     return KeepAliveWrapper(
       child: Stack(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Center(
-              child: Padding(
-                padding: AppStyle.edgeInsetsA12,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "暂不支持抖音搜索，请打开浏览器搜索，然后复制直播间链接进行解析",
-                      textAlign: TextAlign.center,
-                    ),
-                    TextButton.icon(
-                      onPressed: controller.openBrowser,
-                      icon: const Icon(Icons.open_in_browser),
-                      label: const Text("打开浏览器"),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          if (Platform.isAndroid || Platform.isIOS)
-            InAppWebView(
+          Positioned.fill(
+            child: InAppWebView(
               onWebViewCreated: controller.onWebViewCreated,
               onLoadStop: controller.onLoadStop,
               onLoadStart: controller.onLoadStart,
               initialSettings: InAppWebViewSettings(
                 useOnLoadResource: true,
                 userAgent:
-                    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/118.0.0.0",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
                 useShouldOverrideUrlLoading: true,
               ),
               onCreateWindow: controller.onCreateWindow,
@@ -77,6 +51,31 @@ class DouyinSearchView extends StatelessWidget {
                 return NavigationActionPolicy.ALLOW;
               },
             ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Center(
+              child: Padding(
+                padding: AppStyle.edgeInsetsA12,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "如果页面无法显示，可打开浏览器搜索后复制直播间链接进行解析",
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton.icon(
+                      onPressed: controller.openBrowser,
+                      icon: const Icon(Icons.open_in_browser),
+                      label: const Text("打开浏览器"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Obx(
             () => Visibility(
               visible: controller.pageLoadding.value,
